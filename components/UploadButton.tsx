@@ -41,6 +41,7 @@ const UploadButton: React.FC<UploadButtonProps> = ({
       alert("Please select a valid CSV file.");
     }
   };
+
   return (
     <div className="flex flex-col justify-center h-full">
       <button
