@@ -20,7 +20,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     data.forEach((item: ParsedData) => {
       const { Date: date, Species: species } = item;
       const currentDate = date.split(" ")[0];
-      const [currentMonth, _, currentYear] = currentDate.split("/");
+      const [currentMonth, currentYear] = currentDate.split("/");
 
       if (month == parseInt(currentMonth) && year == parseInt(currentYear)) {
         total += 1;

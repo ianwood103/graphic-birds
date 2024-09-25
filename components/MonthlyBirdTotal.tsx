@@ -10,7 +10,7 @@ interface MonthlyBirdTotalProps {
 
 const MonthlyBirdTotal: React.FC<MonthlyBirdTotalProps> = ({ data }) => {
   const [total, setTotal] = useState<number>();
-  const [mostCommonSpecies, setMostCommonSpecies] = useState<String | null>(
+  const [mostCommonSpecies, setMostCommonSpecies] = useState<string | null>(
     null
   );
   const [month, setMonth] = useState<number>(0);
