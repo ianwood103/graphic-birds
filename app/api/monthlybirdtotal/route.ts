@@ -15,17 +15,36 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     let total = 0;
+    const speciesCount: { [key: string]: number } = {};
+
     data.forEach((item: ParsedData) => {
-      const currentDate = item.Date.split(" ")[0];
+      const { Date: date, Species: species } = item;
+      const currentDate = date.split(" ")[0];
       const [currentMonth, _, currentYear] = currentDate.split("/");
 
       if (month == parseInt(currentMonth) && year == parseInt(currentYear)) {
         total += 1;
+        if (speciesCount[species] && species !== "Unknown Bird") {
+          speciesCount[species]++;
+        } else {
+          speciesCount[species] = 1;
+        }
       }
     });
 
+    let mostCommonSpecies: string | null = null;
+    let maxCount = 0;
+
+    for (const species in speciesCount) {
+      if (speciesCount[species] > maxCount) {
+        maxCount = speciesCount[species];
+        mostCommonSpecies = species;
+      }
+    }
+
     const result = {
       total,
+      mostCommonSpecies,
     };
 
     return NextResponse.json(result, {

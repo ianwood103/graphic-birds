@@ -7,7 +7,7 @@ interface GraphicsPaneProps {
 
 const GraphicsPane: React.FC<GraphicsPaneProps> = ({ data }) => {
   return (
-    <div className="flex flex-row flex-wrap gap-10 justify-evenly">
+    <div className="flex flex-row flex-wrap gap-10 justify-evenly mt-20">
       <MonthlyBirdTotal data={data} />
     </div>
   );
