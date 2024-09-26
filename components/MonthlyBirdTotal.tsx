@@ -88,7 +88,7 @@ const MonthlyBirdTotal: React.FC<MonthlyBirdTotalProps> = ({ data }) => {
     <div className="flex flex-col w-80 h-80 border-none shadow-sm">
       <div
         ref={elementRef}
-        className="w-80 h-80 bg-white rounded-md box-shadow cursor-pointer hover:z-30 hover:bg-black"
+        className="w-80 h-80 bg-white rounded-md box-shadow cursor-pointer text-white"
       >
         <div className="flex flex-row w-full h-full bg-primary">
           <div className="flex flex-col items-center p-5 w-7/12">
