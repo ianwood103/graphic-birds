@@ -41,19 +41,28 @@ const DoughnutChart: React.FC<DoughnutProps> = ({ breakdown }) => {
     ],
   };
 
-  const options: ChartOptions<"doughnut"> = {
+  const chartOptions: ChartOptions<"doughnut"> = {
     responsive: true,
     maintainAspectRatio: false,
     cutout: "60%",
-    layout: {
-      padding: {
-        bottom: -30,
-      },
-    },
     plugins: {
       legend: {
-        position: "right",
-        align: "center",
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+  };
+
+  const legendOptions: ChartOptions<"doughnut"> = {
+    maintainAspectRatio: false,
+    cutout: "100%",
+    radius: "50%",
+    plugins: {
+      legend: {
+        position: "bottom",
+        align: "start",
         labels: {
           usePointStyle: true,
           pointStyle: "circle",
@@ -70,7 +79,16 @@ const DoughnutChart: React.FC<DoughnutProps> = ({ breakdown }) => {
     },
   };
 
-  return <Doughnut data={data} options={options} />;
+  return (
+    <div className="flex flex-row h-full">
+      <div className="w-7/12 h-full">
+        <Doughnut className="max-w-full" data={data} options={chartOptions} />
+      </div>
+      <div className="w-5/12 h-full">
+        <Doughnut className="max-w-full" data={data} options={legendOptions} />
+      </div>
+    </div>
+  );
 };
 
 export default DoughnutChart;

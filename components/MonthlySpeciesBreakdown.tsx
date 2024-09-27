@@ -38,7 +38,7 @@ const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
     <div className="flex flex-col w-80 h-80 border-none shadow-sm">
       <div
         ref={graphicRef}
-        className="flex flex-row w-80 h-80 bg-white p-4 relative text-right"
+        className="flex flex-row w-80 min-h-80 bg-white p-4 relative text-right"
       >
         <div className="flex flex-col">
           <img src="/birds_ga.png" alt="" width={30} height={28}></img>
@@ -47,8 +47,8 @@ const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
         <span className="text-primary font-bold text-[24px] absolute top-4 right-4 w-2/3">
           Bird-Building Collisions by Species
         </span>
-        <div className="flex flex-row justify-center text-center w-[40px] absolute left-20 bottom-[92px]">
-          <span className="text-primary font-bold text-[14px]">
+        <div className="flex flex-row justify-center text-center w-[40px] absolute left-20 bottom-[112px]">
+          <span className="text-primary font-bold text-[15px]">
             {MONTHS[month]} {year}
           </span>
         </div>
