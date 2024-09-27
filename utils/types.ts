@@ -5,3 +5,8 @@ export interface ParsedData {
 export interface GraphicProps {
   data: ParsedData[];
 }
+
+export type SpeciesBreakdown = {
+  [key: string]: number;
+  other: number;
+} | null;

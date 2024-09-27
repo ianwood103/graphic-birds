@@ -14,7 +14,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    let total = 0;
     const speciesCount: { [key: string]: number } = {};
 
     data.forEach((item: ParsedData) => {
@@ -23,28 +22,27 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const [currentMonth, , currentYear] = currentDate.split("/");
 
       if (month == parseInt(currentMonth) && year == parseInt(currentYear)) {
-        total += 1;
-        if (speciesCount[species] && species !== "Unknown Bird") {
+        if (speciesCount[species]) {
           speciesCount[species]++;
         } else {
-          speciesCount[species] = 1;
+          if (species !== "Unknown Bird" && species.length > 0) {
+            speciesCount[species] = 1;
+          }
         }
       }
     });
 
-    let mostCommonSpecies: string | null = null;
-    let maxCount = 0;
-
-    for (const species in speciesCount) {
-      if (speciesCount[species] > maxCount) {
-        maxCount = speciesCount[species];
-        mostCommonSpecies = species;
-      }
-    }
+    const entries = Object.entries(speciesCount);
+    entries.sort(([, a], [, b]) => b - a);
+    const top5 = entries.slice(0, 5);
+    const otherSum = entries
+      .slice(5)
+      .reduce((acc, [, value]) => acc + value, 0);
+    const breakdown = Object.fromEntries(top5);
+    breakdown.other = otherSum;
 
     const result = {
-      total,
-      mostCommonSpecies,
+      breakdown,
     };
 
     return NextResponse.json(result, {

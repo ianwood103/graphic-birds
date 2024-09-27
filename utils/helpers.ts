@@ -10,8 +10,8 @@ export const downloadImage = (
     domtoimage
       .toPng(node, {
         quality: 1.0,
-        width: node.clientWidth * scale, // Adjust width based on scale factor
-        height: node.clientHeight * scale, // Adjust height based on scale factor
+        width: node.clientWidth * scale,
+        height: node.clientHeight * scale,
         style: {
           transform: `scale(${scale})`,
           transformOrigin: "top left",

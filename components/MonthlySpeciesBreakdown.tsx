@@ -1,4 +1,4 @@
-import { GraphicProps } from "@/utils/types";
+import { GraphicProps, SpeciesBreakdown } from "@/utils/types";
 import { MONTHS } from "@/utils/constants";
 import { downloadImage } from "@/utils/helpers";
 import { useEffect, useRef, useState } from "react";
@@ -9,12 +9,13 @@ import DoughnutChart from "./DoughnutChart";
 const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState<number>(2024);
+  const [breakdown, setBreakdown] = useState<SpeciesBreakdown>(null);
 
   const graphicRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const fetchBirdTotal = async () => {
-      const response = await fetch("/api/monthlybirdtotal", {
+    const fetchSpeciesBreakdown = async () => {
+      const response = await fetch("/api/monthlyspeciesbreakdown", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,9 +28,10 @@ const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
       });
 
       const json = await response.json();
+      setBreakdown(json.breakdown);
     };
 
-    fetchBirdTotal();
+    fetchSpeciesBreakdown();
   }, [data, month, year]);
 
   return (
@@ -40,13 +42,13 @@ const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
       >
         <div className="flex flex-col">
           <img src="/birds_ga.png" alt="" width={30} height={28}></img>
-          <DoughnutChart />
+          <DoughnutChart breakdown={breakdown} />
         </div>
         <span className="text-primary font-bold text-[24px] absolute top-4 right-4 w-2/3">
           Bird-Building Collisions by Species
         </span>
-        <div className="flex flex-row justify-center text-center w-[80px] absolute left-16 bottom-[90px]">
-          <span className="text-primary font-bold text-md">
+        <div className="flex flex-row justify-center text-center w-[40px] absolute left-20 bottom-[92px]">
+          <span className="text-primary font-bold text-[14px]">
             {MONTHS[month]} {year}
           </span>
         </div>

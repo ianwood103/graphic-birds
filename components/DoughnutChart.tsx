@@ -8,18 +8,33 @@ import {
   Legend,
   ChartOptions,
 } from "chart.js";
+import { SpeciesBreakdown } from "@/utils/types";
 
-// Register the required components for the chart
+interface DoughnutProps {
+  breakdown: SpeciesBreakdown;
+}
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = () => {
+const DoughnutChart: React.FC<DoughnutProps> = ({ breakdown }) => {
+  if (!breakdown) {
+    return <span>No Data</span>;
+  }
+
   const data = {
-    labels: ["Rose Breasted Grosbeak", "Blue", "Yellow"],
+    labels: Object.keys(breakdown),
     datasets: [
       {
         label: "# of Votes",
-        data: [12, 19, 3],
-        backgroundColor: ["#005B9E", "#1987D8", "#64A3D1"],
+        data: Object.values(breakdown),
+        backgroundColor: [
+          "#005B9E",
+          "#1987D8",
+          "#64A3D1",
+          "#BAD6EA",
+          "#D3F7CC",
+          "#98C98E",
+        ],
         borderColor: "#FFFFFF",
         borderWidth: 4,
       },
