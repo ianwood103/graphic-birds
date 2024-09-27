@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { ParsedData } from "@/types";
+import { ParsedData } from "@/utils/types";
 import UploadButton from "@/components/UploadButton";
 import GraphicsPane from "@/components/GraphicsPane";
 

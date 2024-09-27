@@ -1,14 +1,10 @@
-import { ParsedData } from "@/types";
+import { GraphicProps } from "@/utils/types";
 import { useEffect, useRef, useState } from "react";
 import { Select, Input, Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
 import domtoimage from "dom-to-image";
 
-interface MonthlyBirdTotalProps {
-  data: ParsedData[];
-}
-
-const MonthlyBirdTotal: React.FC<MonthlyBirdTotalProps> = ({ data }) => {
+const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
   const [total, setTotal] = useState<number>();
   const [mostCommonSpecies, setMostCommonSpecies] = useState<string | null>(
     null

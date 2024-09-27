@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { ParsedData } from "@/types";
+import { ParsedData } from "@/utils/types";
 
 import Papa from "papaparse";
 import { IoCloudUploadOutline } from "react-icons/io5";

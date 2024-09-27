@@ -1,14 +1,12 @@
-import { ParsedData } from "@/types";
+import { GraphicProps } from "@/utils/types";
 import MonthlyBirdTotal from "./MonthlyBirdTotal";
+import MonthlySpeciesBreakdown from "./MonthlySpeciesBreakdown";
 
-interface GraphicsPaneProps {
-  data: ParsedData[];
-}
-
-const GraphicsPane: React.FC<GraphicsPaneProps> = ({ data }) => {
+const GraphicsPane: React.FC<GraphicProps> = ({ data }) => {
   return (
     <div className="flex flex-row flex-wrap gap-10 justify-evenly mt-20">
       <MonthlyBirdTotal data={data} />
+      <MonthlySpeciesBreakdown data={data} />
     </div>
   );
 };
