@@ -1,6 +1,6 @@
 import { GraphicProps } from "@/utils/types";
 import { useEffect, useRef, useState } from "react";
-import { Select, Input, Button } from "@rewind-ui/core";
+import { Select, Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
 import domtoimage from "dom-to-image";
 
@@ -10,7 +10,7 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
     null
   );
   const [month, setMonth] = useState<number>(0);
-  const [year, setYear] = useState<number>(2024);
+  const [year, setYear] = useState<number>(new Date().getFullYear());
 
   const months = [
     "January",
@@ -80,6 +80,12 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
     fetchBirdTotal();
   }, [data, month, year]);
 
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: currentYear - 1999 },
+    (_, i) => currentYear - i
+  );
+
   return (
     <div className="flex flex-col w-80 h-80 border-none shadow-sm">
       <div
@@ -134,12 +140,17 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
           </Select>
         </div>
         <div className="w-1/3">
-          <Input
-            size="sm"
+          <Select
+            defaultValue={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            value={year}
-            placeholder="Year"
-          />
+            size="sm"
+          >
+            {years.map((yearOption) => (
+              <option key={yearOption} value={yearOption}>
+                {yearOption}
+              </option>
+            ))}
+          </Select>
         </div>
         <div className="w-1/6">
           <Button className="h-full bg-primary" onClick={downloadImage}>

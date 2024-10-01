@@ -2,13 +2,13 @@ import { GraphicProps, SpeciesBreakdown } from "@/utils/types";
 import { MONTHS } from "@/utils/constants";
 import { downloadImage } from "@/utils/helpers";
 import { useEffect, useRef, useState } from "react";
-import { Select, Input, Button } from "@rewind-ui/core";
+import { Select, Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
 import DoughnutChart from "./DoughnutChart";
 
 const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
   const [month, setMonth] = useState<number>(0);
-  const [year, setYear] = useState<number>(2024);
+  const [year, setYear] = useState<number>(new Date().getFullYear());
   const [breakdown, setBreakdown] = useState<SpeciesBreakdown>(null);
 
   const graphicRef = useRef<HTMLDivElement | null>(null);
@@ -33,6 +33,12 @@ const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
 
     fetchSpeciesBreakdown();
   }, [data, month, year]);
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: currentYear - 1999 },
+    (_, i) => currentYear - i
+  );
 
   return (
     <div className="flex flex-col w-80 h-80 border-none shadow-sm">
@@ -68,12 +74,17 @@ const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data }) => {
           </Select>
         </div>
         <div className="w-1/3">
-          <Input
-            size="sm"
+          <Select
+            defaultValue={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            value={year}
-            placeholder="Year"
-          />
+            size="sm"
+          >
+            {years.map((yearOption) => (
+              <option key={yearOption} value={yearOption}>
+                {yearOption}
+              </option>
+            ))}
+          </Select>
         </div>
         <div className="w-1/6">
           <Button
