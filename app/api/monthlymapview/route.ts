@@ -35,6 +35,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       coordinates,
     };
 
+    console.log(result);
+
     return NextResponse.json(result, {
       status: 200,
     });

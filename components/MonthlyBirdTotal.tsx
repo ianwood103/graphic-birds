@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Select, Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { MONTHS } from "@/utils/constants";
-import { downloadImage } from "@/utils/helpers";
+import { downloadImage, getBirdFilename } from "@/utils/helpers";
 
 const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
   // State variables
@@ -13,6 +13,9 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
   );
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState<number>(new Date().getFullYear());
+  const [birdFilename, setBirdFilename] = useState<string>(
+    "/bird_placeholder.png"
+  );
 
   // Ref for the element to be captured as an image
   const elementRef = useRef<HTMLDivElement | null>(null);
@@ -34,6 +37,8 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
         const json = await response.json();
         setTotal(json.total);
         setMostCommonSpecies(json.mostCommonSpecies);
+        const filename = getBirdFilename(json.mostCommonSpecies);
+        setBirdFilename(filename);
       } catch (error) {
         console.error("Error fetching bird total:", error);
       }
@@ -91,7 +96,7 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
           {/* Right column (image) */}
           <div className="w-5/12">
             <img
-              src="/bird_placeholder.png"
+              src={birdFilename}
               alt="Bird Placeholder"
               width={1000}
               height={1000}

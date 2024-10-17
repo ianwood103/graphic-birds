@@ -16,6 +16,7 @@
     "chart.js": "^4.4.4",
     "class-variance-authority": "^0.7.0",
     "dom-to-image": "^2.6.0",
+    "fs": "^0.0.1-security",
     "next": "14.2.11",
     "papaparse": "^5.4.1",
     "react": "^18",

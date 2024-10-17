@@ -48,12 +48,12 @@ const MonthlyMapView: React.FC<GraphicProps> = ({ data }) => {
         ref={graphicRef}
         className="flex flex-col w-80 min-h-80 bg-white relative"
       >
-        <div className="w-full h-80 relative">
+        <div className="w-full h-80 relative z-10">
           {coordinates && (
             <div style={{ height: "100%", width: "100%", overflow: "hidden" }}>
               <MapContainer
-                center={[33.786, -84.386]}
-                zoom={12}
+                center={[33.808, -84.344]}
+                zoom={11}
                 style={{
                   height: "calc(100% + 20px)",
                   width: "100%",
@@ -68,7 +68,7 @@ const MonthlyMapView: React.FC<GraphicProps> = ({ data }) => {
                 keyboard={false}
               >
                 <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
                   className="grayscale"
                 />
                 {coordinates.map((coord, index) => (
@@ -93,6 +93,19 @@ const MonthlyMapView: React.FC<GraphicProps> = ({ data }) => {
               </MapContainer>
             </div>
           )}
+        </div>
+        <div className="absolute top-4 right-3 w-1/2 z-20">
+          <div className="flex flex-col">
+            <span className="text-primary font-bold text-[24px] z-20 leading-none">
+              Where are volunteers finding dead birds?
+            </span>
+            <span className="text-primary font-extralight text-xs leading-tight">
+              Our volunteer citizen scientists walk standardized routes in three
+              locations in Atlanta, highlighted here. Help us monitor
+              bird-building collisions by joining our team of citizen
+              scientists!
+            </span>
+          </div>
         </div>
       </div>
       <div className="flex flex-row rounded-b-md bg-white p-2 w-full gap-2 z-10">

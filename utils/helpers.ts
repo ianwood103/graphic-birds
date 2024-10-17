@@ -1,4 +1,5 @@
 import domtoimage from "dom-to-image";
+import { birdFileMap } from "./constants";
 
 export const downloadImage = (
   elementRef: React.RefObject<HTMLDivElement | null>
@@ -29,4 +30,13 @@ export const downloadImage = (
         console.error("Could not generate image", error);
       });
   }
+};
+
+export const getBirdFilename = (bird: string) => {
+  const decodedBirdname = bird
+    .toLowerCase()
+    .replace(/ /g, "_")
+    .replace(/'/g, "")
+    .replace(/-/g, "_");
+  return birdFileMap[decodedBirdname] || "/bird_placeholder.png";
 };
