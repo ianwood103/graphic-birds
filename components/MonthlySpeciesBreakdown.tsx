@@ -4,9 +4,14 @@ import { downloadImage } from "@/utils/helpers";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
+import { FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 import DoughnutChart from "./DoughnutChart";
 
-const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data, month, year }) => {
+const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({
+  data,
+  month,
+  year,
+}) => {
   const [breakdown, setBreakdown] = useState<SpeciesBreakdown>(null);
   const graphicRef = useRef<HTMLDivElement | null>(null);
 
@@ -50,13 +55,45 @@ const MonthlySpeciesBreakdown: React.FC<GraphicProps> = ({ data, month, year }) 
           </span>
         </div>
       </div>
-      <div className="flex flex-row rounded-b-md bg-white p-2 w-full">
-        <div className="w-full">
+      <div className="flex flex-row rounded-b-md bg-white p-2 w-full gap-2">
+        <div className="w-1/2">
           <Button
             className="h-full w-full bg-primary"
             onClick={() => downloadImage(graphicRef)}
           >
             <MdOutlineFileDownload className="text-lg" />
+          </Button>
+        </div>
+        <div className="flex flex-row w-1/2 gap-2 justify-center">
+          <Button
+            className="h-full w-1/4 bg-[#1DA1F2] px-0 py-2"
+            onClick={() =>
+              window.open("https://twitter.com/intent/tweet", "_blank")
+            }
+          >
+            <FaTwitter className="text-lg" />
+          </Button>
+          <Button
+            className="h-full w-1/4 bg-[#0077b5] px-0 py-2"
+            onClick={() =>
+              window.open(
+                "https://www.linkedin.com/sharing/share-offsite/",
+                "_blank"
+              )
+            }
+          >
+            <FaLinkedin className="text-lg" />
+          </Button>
+          <Button
+            className="h-full w-1/4 bg-[#4267B2] px-0 py-2"
+            onClick={() =>
+              window.open(
+                "https://www.facebook.com/sharer/sharer.php",
+                "_blank"
+              )
+            }
+          >
+            <FaFacebook className="text-lg" />
           </Button>
         </div>
       </div>

@@ -1,10 +1,14 @@
+import dynamic from "next/dynamic";
 import { GraphicProps } from "@/utils/types";
 import MonthlyBirdTotal from "./MonthlyBirdTotal";
 import MonthlySpeciesBreakdown from "./MonthlySpeciesBreakdown";
-import MonthlyMapView from "./MonthlyMapView";
 import { Select } from "@rewind-ui/core";
 import { MONTHS } from "@/utils/constants";
 import { useState } from "react";
+
+const MonthlyMapView = dynamic(() => import("./MonthlyMapView"), {
+  ssr: false,
+});
 
 const GraphicsPane: React.FC<{ data: GraphicProps["data"] }> = ({ data }) => {
   const [month, setMonth] = useState<number>(0);

@@ -2,6 +2,7 @@ import { GraphicProps } from "@/utils/types";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
+import { FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 import { MONTHS } from "@/utils/constants";
 import { downloadImage, getBirdFilename } from "@/utils/helpers";
 
@@ -16,7 +17,7 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data, month, year }) => {
   );
 
   // Ref for the element to be captured as an image
-  const elementRef = useRef<HTMLDivElement | null>(null);
+  const graphicRef = useRef<HTMLDivElement | null>(null);
 
   // Fetch bird total data when month, year, or data changes
   useEffect(() => {
@@ -49,7 +50,7 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data, month, year }) => {
     <div className="flex flex-col w-80 h-80 border-none shadow-sm">
       {/* Main content */}
       <div
-        ref={elementRef}
+        ref={graphicRef}
         className="w-80 h-80 bg-white rounded-md box-shadow cursor-pointer text-white"
       >
         <div className="flex flex-row w-full h-full bg-primary">
@@ -97,13 +98,45 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data, month, year }) => {
         </div>
       </div>
       {/* Controls */}
-      <div className="flex flex-row rounded-b-md bg-white p-2 w-full">
-        <div className="w-full">
+      <div className="flex flex-row rounded-b-md bg-white p-2 w-full gap-2">
+        <div className="w-1/2">
           <Button
             className="h-full w-full bg-primary"
-            onClick={() => downloadImage(elementRef)}
+            onClick={() => downloadImage(graphicRef)}
           >
             <MdOutlineFileDownload className="text-lg" />
+          </Button>
+        </div>
+        <div className="flex flex-row w-1/2 gap-2 justify-center">
+          <Button
+            className="h-full w-1/4 bg-[#1DA1F2] px-0 py-2"
+            onClick={() =>
+              window.open("https://twitter.com/intent/tweet", "_blank")
+            }
+          >
+            <FaTwitter className="text-lg" />
+          </Button>
+          <Button
+            className="h-full w-1/4 bg-[#0077b5] px-0 py-2"
+            onClick={() =>
+              window.open(
+                "https://www.linkedin.com/sharing/share-offsite/",
+                "_blank"
+              )
+            }
+          >
+            <FaLinkedin className="text-lg" />
+          </Button>
+          <Button
+            className="h-full w-1/4 bg-[#4267B2] px-0 py-2"
+            onClick={() =>
+              window.open(
+                "https://www.facebook.com/sharer/sharer.php",
+                "_blank"
+              )
+            }
+          >
+            <FaFacebook className="text-lg" />
           </Button>
         </div>
       </div>
