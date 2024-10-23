@@ -2,17 +2,14 @@ import { GraphicProps, Coordinate } from "@/utils/types";
 import { MONTHS } from "@/utils/constants";
 import { downloadImage } from "@/utils/helpers";
 import { useEffect, useRef, useState } from "react";
-import { Select, Button } from "@rewind-ui/core";
+import { Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const MonthlyMapView: React.FC<GraphicProps> = ({ data }) => {
-  const [month, setMonth] = useState<number>(0);
-  const [year, setYear] = useState<number>(new Date().getFullYear());
+const MonthlyMapView: React.FC<GraphicProps> = ({ data, month, year }) => {
   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
-
   const graphicRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -35,12 +32,6 @@ const MonthlyMapView: React.FC<GraphicProps> = ({ data }) => {
 
     fetchMapData();
   }, [data, month, year]);
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from(
-    { length: currentYear - 1999 },
-    (_, i) => currentYear - i
-  );
 
   return (
     <div className="flex flex-col w-80 h-80 border-none shadow-sm">
@@ -108,36 +99,10 @@ const MonthlyMapView: React.FC<GraphicProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row rounded-b-md bg-white p-2 w-full gap-2 z-10">
-        <div className="w-1/2">
-          <Select
-            defaultValue={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
-            size="sm"
-          >
-            {MONTHS.map((monthLabel, idx) => (
-              <option key={idx} value={idx}>
-                {monthLabel}
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div className="w-1/3">
-          <Select
-            defaultValue={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-            size="sm"
-          >
-            {years.map((yearOption) => (
-              <option key={yearOption} value={yearOption}>
-                {yearOption}
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div className="w-1/6">
+      <div className="flex flex-row rounded-b-md bg-white p-2 w-full">
+        <div className="w-full">
           <Button
-            className="h-full bg-primary"
+            className="h-full w-full bg-primary"
             onClick={() => downloadImage(graphicRef)}
           >
             <MdOutlineFileDownload className="text-lg" />

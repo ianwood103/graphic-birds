@@ -4,6 +4,8 @@ export interface ParsedData {
 
 export interface GraphicProps {
   data: ParsedData[];
+  month: number;
+  year: number;
 }
 
 export type SpeciesBreakdown = {

@@ -1,18 +1,16 @@
 import { GraphicProps } from "@/utils/types";
 import { useEffect, useRef, useState } from "react";
-import { Select, Button } from "@rewind-ui/core";
+import { Button } from "@rewind-ui/core";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { MONTHS } from "@/utils/constants";
 import { downloadImage, getBirdFilename } from "@/utils/helpers";
 
-const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
+const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data, month, year }) => {
   // State variables
   const [total, setTotal] = useState<number>(0);
   const [mostCommonSpecies, setMostCommonSpecies] = useState<string | null>(
     null
   );
-  const [month, setMonth] = useState<number>(0);
-  const [year, setYear] = useState<number>(new Date().getFullYear());
   const [birdFilename, setBirdFilename] = useState<string>(
     "/bird_placeholder.png"
   );
@@ -46,13 +44,6 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
 
     fetchBirdTotal();
   }, [data, month, year]);
-
-  // Generate array of years from 2000 to current year
-  const currentYear = new Date().getFullYear();
-  const years = Array.from(
-    { length: currentYear - 1999 },
-    (_, i) => currentYear - i
-  );
 
   return (
     <div className="flex flex-col w-80 h-80 border-none shadow-sm">
@@ -106,39 +97,10 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data }) => {
         </div>
       </div>
       {/* Controls */}
-      <div className="flex flex-row rounded-b-md bg-white p-2 w-full gap-2">
-        {/* Month selector */}
-        <div className="w-1/2">
-          <Select
-            defaultValue={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
-            size="sm"
-          >
-            {MONTHS.map((monthLabel, idx) => (
-              <option key={idx} value={idx}>
-                {monthLabel}
-              </option>
-            ))}
-          </Select>
-        </div>
-        {/* Year selector */}
-        <div className="w-1/3">
-          <Select
-            defaultValue={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-            size="sm"
-          >
-            {years.map((yearOption) => (
-              <option key={yearOption} value={yearOption}>
-                {yearOption}
-              </option>
-            ))}
-          </Select>
-        </div>
-        {/* Download button */}
-        <div className="w-1/6">
+      <div className="flex flex-row rounded-b-md bg-white p-2 w-full">
+        <div className="w-full">
           <Button
-            className="h-full bg-primary"
+            className="h-full w-full bg-primary"
             onClick={() => downloadImage(elementRef)}
           >
             <MdOutlineFileDownload className="text-lg" />
