@@ -1,22 +1,30 @@
 "use client";
 
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 import { ParsedData } from "@/utils/types";
 
 import Papa from "papaparse";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
-interface UploadButtonProps {
-  setData: React.Dispatch<React.SetStateAction<ParsedData[]>>;
-  renderGraphics: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const UploadButton: React.FC<UploadButtonProps> = ({
-  setData,
-  renderGraphics,
-}) => {
+const UploadButton: React.FC = () => {
   const csvRef = useRef<HTMLInputElement | null>(null);
+
+  const router = useRouter();
+
+  const uploadData = async (data: ParsedData[]) => {
+    const response = await fetch("/api/redis/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data }),
+    });
+
+    const { id } = await response.json();
+    router.push("/dashboard/" + id);
+  };
 
   const handleClick = () => {
     csvRef.current?.click();
@@ -30,8 +38,7 @@ const UploadButton: React.FC<UploadButtonProps> = ({
         skipEmptyLines: true,
         complete: (result) => {
           const parsedData = result.data;
-          setData(parsedData);
-          renderGraphics(true);
+          uploadData(parsedData);
         },
         error: (error) => {
           console.error("Error parsing CSV:", error);

@@ -23,7 +23,7 @@ export const downloadImage = (
       .then((dataUrl) => {
         const link = document.createElement("a");
         link.href = dataUrl;
-        link.download = "element.png";
+        link.download = "graphic.png";
         link.click();
       })
       .catch((error) => {

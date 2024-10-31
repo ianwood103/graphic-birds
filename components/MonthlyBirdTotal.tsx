@@ -47,17 +47,42 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data, month, year }) => {
   }, [data, month, year]);
 
   return (
-    <div className="flex flex-col w-80 h-80 border-none shadow-sm">
+    <div className="flex flex-col w-[36rem] h-[36rem] border-none shadow-sm">
       {/* Main content */}
       <div
         ref={graphicRef}
-        className="w-80 h-80 bg-white rounded-md box-shadow cursor-pointer text-white"
+        className="w-[36rem] h-[36rem] bg-white rounded-md box-shadow text-white flex flex-row justify-center relative"
       >
-        <div className="flex flex-row w-full h-full bg-primary">
-          {/* Left column */}
-          <div className="flex flex-col items-center p-5 w-7/12">
-            {/* Logos */}
-            <div className="flex flex-row ml-2">
+        <div className="absolute w-[36rem] h-[36rem] z-10">
+          <img
+            src={birdFilename}
+            alt="Bird Placeholder"
+            width={1000}
+            height={1000}
+            className="w-[36rem] h-[36rem] object-cover"
+          />
+        </div>
+        <div className="flex flex-row w-10/12 h-full bg-[#005B9E] bg-opacity-65 z-20">
+          <div className="flex flex-col items-center w-full h-full relative">
+            {/* Date */}
+            <span className="font-montserrat text-[23px] font-[400] leading-[48px]">
+              {MONTHS[month].toUpperCase()} {year}
+            </span>
+            {/* Total collisions */}
+            <span className="font-montserrat text-[123px] font-[700] mt-[50px]">
+              {total}
+            </span>
+            <span className="font-montserrat text-[27px] font-[700] leading-tight text-center w-7/12 -mt-[10px]">
+              Collisions recorded by volunteers
+            </span>
+            {/* Most common species */}
+            {mostCommonSpecies && (
+              <span className="font-montserrat text-[16px] font-[400] mt-[30px] leading-tight text-center w-7/12">
+                The most common bird found this month was the{" "}
+                {mostCommonSpecies}.
+              </span>
+            )}
+            <div className="flex flex-row absolute bottom-0 left-1/2 -ml-[35px] mb-[15px]">
               <img
                 src="/birds_ga.png"
                 alt="Birds GA Logo"
@@ -66,34 +91,6 @@ const MonthlyBirdTotal: React.FC<GraphicProps> = ({ data, month, year }) => {
               />
               <img src="/gt_logo.png" alt="GT Logo" width={40} height={50} />
             </div>
-            {/* Date */}
-            <span className="font-montserrat text-sm font-bold mt-6">
-              {MONTHS[month]} {year}
-            </span>
-            {/* Total collisions */}
-            <span className="font-montserrat text-[60px] font-bold -mt-3">
-              {total}
-            </span>
-            <span className="font-montserrat text-sm font-bold mt-2 text-center">
-              Collisions recorded by volunteers
-            </span>
-            {/* Most common species */}
-            {mostCommonSpecies && (
-              <span className="font-montserrat text-[9px] font-thin mt-5 px-2 text-center">
-                The most common bird found this month was the{" "}
-                {mostCommonSpecies}.
-              </span>
-            )}
-          </div>
-          {/* Right column (image) */}
-          <div className="w-5/12">
-            <img
-              src={birdFilename}
-              alt="Bird Placeholder"
-              width={1000}
-              height={1000}
-              className="h-full w-auto object-cover"
-            />
           </div>
         </div>
       </div>

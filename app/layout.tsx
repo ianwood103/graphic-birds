@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Montserrat } from 'next/font/google';
+import { Montserrat } from "next/font/google";
 
 import "./globals.css";
 
 // Configure the Montserrat font
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
 const geistSans = localFont({
