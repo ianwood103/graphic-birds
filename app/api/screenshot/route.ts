@@ -26,7 +26,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (isProduction) {
       try {
-        const chromium = await import("@sparticuz/chromium").then(
+        const chromium = await import("@sparticuz/chromium-min").then(
           (m) => m.default
         );
 
@@ -35,7 +35,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         browser = await puppeteer.launch({
           args: chromium.args,
           defaultViewport: chromium.defaultViewport,
-          executablePath: await chromium.executablePath(),
+          executablePath: await chromium.executablePath(
+            "https://github.com/Sparticuz/chromium/releases/download/v131.0.0/chromium-v131.0.0-pack.tar"
+          ),
           headless: chromium.headless,
         });
 
