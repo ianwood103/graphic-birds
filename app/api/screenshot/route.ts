@@ -35,9 +35,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         browser = await puppeteer.launch({
           args: chromium.args,
           defaultViewport: chromium.defaultViewport,
-          executablePath: await chromium.executablePath,
+          executablePath: await chromium.executablePath(),
           headless: chromium.headless,
-          ignoreHTTPSErrors: true,
         });
 
         const page = await browser.newPage();
@@ -53,7 +52,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const element = await page.$(selector);
 
         if (element) {
-          const imageBuffer = (await element.screenshot()) as string;
+          const imageBuffer = await element.screenshot();
 
           const filename = "uploaded_on_" + Date.now() + ".jpg";
 
