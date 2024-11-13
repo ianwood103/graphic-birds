@@ -26,11 +26,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (isProduction) {
       try {
-        const chromium = await import("chrome-aws-lambda").then(
+        const chromium = await import("@sparticuz/chromium").then(
           (m) => m.default
         );
 
-        browser = await chromium.puppeteer.launch({
+        const puppeteer = await import("puppeteer-core").then((m) => m.default);
+
+        browser = await puppeteer.launch({
           args: chromium.args,
           defaultViewport: chromium.defaultViewport,
           executablePath: await chromium.executablePath,
