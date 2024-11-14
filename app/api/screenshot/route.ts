@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import AWS from "aws-sdk";
 import chromium from "@sparticuz/chromium-min";
 
+export const maxDuration = 30;
+
 const S3 = new AWS.S3({
   credentials: {
     accessKeyId: process.env.S3_ACCESS_KEY || "key",
