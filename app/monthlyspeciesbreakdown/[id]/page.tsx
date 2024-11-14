@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
-import redis from "@/utils/redis";
 import { ParsedData } from "@/utils/types";
 import { MONTHS } from "@/utils/constants";
-import { getBirdFilename } from "@/utils/helpers";
+import { getBirdFilename, getData } from "@/utils/helpers";
+import { SpeciesBreakdown } from "@/utils/types";
+import BarChart from "@/components/BarChart";
 import Image from "next/image";
 
 interface Props {
@@ -22,7 +23,7 @@ const MonthlyBirdTotalPage: NextPage<Props> = async ({
   const year = parseInt(searchParams.year || "2024", 10);
 
   const data = await getData(id);
-  const { total, mostCommonSpecies } = await processData(data, year, month);
+  const { breakdown, mostCommonSpecies } = await processData(data, year, month);
   const filename = mostCommonSpecies
     ? getBirdFilename(mostCommonSpecies)
     : "/bird_placeholder.png";
@@ -30,7 +31,7 @@ const MonthlyBirdTotalPage: NextPage<Props> = async ({
   return (
     <div
       className="w-[36rem] h-[36rem] bg-white rounded-md box-shadow text-white flex flex-row justify-center relative"
-      id="monthlybirdtotal"
+      id="monthlyspeciesbreakdown"
     >
       <div className="absolute w-[36rem] h-[36rem] z-10">
         <Image
@@ -41,25 +42,21 @@ const MonthlyBirdTotalPage: NextPage<Props> = async ({
           className="w-[36rem] h-[36rem] object-cover"
         />
       </div>
-      <div className="flex flex-row w-10/12 h-full bg-[#005B9E] bg-opacity-65 z-20">
+      <div className="flex flex-row w-full h-full bg-[#0F3D5FE5] bg-opacity-80 z-20">
         <div className="flex flex-col items-center w-full h-full relative">
           {/* Date */}
           <span className="font-montserrat text-[23px] font-[400] leading-[48px]">
             {MONTHS[month].toUpperCase()} {year}
           </span>
-          {/* Total collisions */}
-          <span className="font-montserrat text-[123px] font-[700] mt-[50px]">
-            {total}
+          <span className="font-montserrat text-[27px] font-[700] leading-tight text-center w-10/12 mt-[50px]">
+            What species were found by voluneers?
           </span>
-          <span className="font-montserrat text-[27px] font-[700] leading-tight text-center w-7/12 -mt-[10px]">
-            Collisions recorded by volunteers
+          <div className="w-11/12 h-full mt-[20px]">
+            <BarChart breakdown={breakdown} />
+          </div>
+          <span className="font-montserrat text-[18px] font-[400] mb-[110px] leading-tight text-center w-8/12">
+            Migrating species are most vulnerable to bird-building collisions.
           </span>
-          {/* Most common species */}
-          {mostCommonSpecies && (
-            <span className="font-montserrat text-[16px] font-[400] mt-[30px] leading-tight text-center w-7/12">
-              The most common bird found this month was the {mostCommonSpecies}.
-            </span>
-          )}
           <div className="flex flex-row absolute bottom-0 left-1/2 -ml-[35px] mb-[15px] gap-2">
             <Image
               src="/birds_ga.png"
@@ -77,49 +74,38 @@ const MonthlyBirdTotalPage: NextPage<Props> = async ({
 
 export default MonthlyBirdTotalPage;
 
-const getData = async (id: string) => {
-  const redisData = await redis.hget("data", id);
-  if (redisData) {
-    const { data } = JSON.parse(redisData);
-    return data;
-  } else {
-    return "invalid id";
-  }
-};
-
 const processData = async (data: ParsedData[], year: number, month: number) => {
-  if (!data) {
-    return { total: 0, mostCommonSpecies: "Unknown" };
-  }
-  let total = 0;
   const speciesCount: { [key: string]: number } = {};
+
   data.forEach((item: ParsedData) => {
     const { Date: date, Species: species } = item;
     const currentDate = date.split(" ")[0];
     const [currentMonth, , currentYear] = currentDate.split("/");
 
     if (month == parseInt(currentMonth) && year == parseInt(currentYear)) {
-      total += 1;
-      if (speciesCount[species] && species !== "Unknown Bird") {
+      if (speciesCount[species]) {
         speciesCount[species]++;
       } else {
-        speciesCount[species] = 1;
+        if (species !== "Unknown Bird" && species.length > 0) {
+          speciesCount[species] = 1;
+        }
       }
     }
   });
 
-  let mostCommonSpecies: string | null = null;
-  let maxCount = 0;
+  const entries = Object.entries(speciesCount);
+  entries.sort(([, a], [, b]) => b - a);
+  const top5 = entries.slice(0, 5);
+  const otherSum = entries.slice(5).reduce((acc, [, value]) => acc + value, 0);
+  const breakdown: SpeciesBreakdown = {
+    ...Object.fromEntries(top5),
+    other: otherSum,
+  };
 
-  for (const species in speciesCount) {
-    if (speciesCount[species] > maxCount) {
-      maxCount = speciesCount[species];
-      mostCommonSpecies = species;
-    }
-  }
+  const mostCommonSpecies = entries[0][0];
 
   const result = {
-    total,
+    breakdown,
     mostCommonSpecies,
   };
 

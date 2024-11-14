@@ -1,5 +1,6 @@
 import domtoimage from "dom-to-image";
 import { birdFileMap } from "./constants";
+import redis from "./redis";
 
 export const downloadImage = (
   elementRef: React.RefObject<HTMLDivElement | null>
@@ -39,4 +40,14 @@ export const getBirdFilename = (bird: string) => {
     .replace(/'/g, "")
     .replace(/-/g, "_");
   return birdFileMap[decodedBirdname] || "/bird_placeholder.png";
+};
+
+export const getData = async (id: string) => {
+  const redisData = await redis.hget("data", id);
+  if (redisData) {
+    const { data } = JSON.parse(redisData);
+    return data;
+  } else {
+    return "invalid id";
+  }
 };

@@ -22,11 +22,14 @@ const Dashboard: NextPage<Props> = ({ params }) => {
   );
 
   const downloadGraphic = async (graphic: string) => {
+    const isProduction = process.env.ENVIRONMENT == "production";
     const searchParams = new URLSearchParams({
       year: year.toString(),
       month: month.toString(),
     });
-    const url = `https://visual-birds.vercel.app/${graphic}/${id}?${searchParams.toString()}`;
+    const url = `${
+      isProduction ? "https://visual-birds.vercel.app" : "http://localhost:3000"
+    }/${graphic}/${id}?${searchParams.toString()}`;
     const selector = `#${graphic}`;
 
     const response = await fetch("/api/screenshot", {
@@ -77,8 +80,14 @@ const Dashboard: NextPage<Props> = ({ params }) => {
         </div>
       </div>
       <div className="flex flex-row">
-        <Button onClick={() => downloadGraphic("monthlybirdtotal")}>
+        <Button
+          onClick={() => downloadGraphic("monthlybirdtotal")}
+          loading={false}
+        >
           Monthly Bird Total
+        </Button>
+        <Button onClick={() => downloadGraphic("monthlyspeciesbreakdown")}>
+          Monthly Species Breakdown
         </Button>
       </div>
     </div>
