@@ -22,7 +22,7 @@ const Dashboard: NextPage<Props> = ({ params }) => {
   );
 
   const downloadGraphic = async (graphic: string) => {
-    const isProduction = process.env.ENVIRONMENT == "production";
+    const isProduction = process.env.NODE_ENV === "production";
     const searchParams = new URLSearchParams({
       year: year.toString(),
       month: month.toString(),
