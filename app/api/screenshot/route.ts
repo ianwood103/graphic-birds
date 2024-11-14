@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import AWS from "aws-sdk";
+import chromium from "@sparticuz/chromium-min";
 
 const S3 = new AWS.S3({
   credentials: {
@@ -25,136 +26,72 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     let browser = null;
 
     if (isProduction) {
-      try {
-        const chromium = await import("@sparticuz/chromium-min").then(
-          (m) => m.default
-        );
+      const puppeteer = await import("puppeteer-core").then((m) => m.default);
 
-        const puppeteer = await import("puppeteer-core").then((m) => m.default);
-
-        browser = await puppeteer.launch({
-          args: chromium.args,
-          defaultViewport: chromium.defaultViewport,
-          executablePath: await chromium.executablePath(
-            "https://github.com/Sparticuz/chromium/releases/download/v131.0.0/chromium-v131.0.0-pack.tar"
-          ),
-          headless: chromium.headless,
-        });
-
-        const page = await browser.newPage();
-
-        await page.setViewport({
-          width: 1920,
-          height: 1080,
-          deviceScaleFactor: 2,
-        });
-
-        await page.goto(url, { waitUntil: "networkidle0" });
-
-        const element = await page.$(selector);
-
-        if (element) {
-          const imageBuffer = await element.screenshot();
-
-          const filename = "uploaded_on_" + Date.now() + ".jpg";
-
-          const params = {
-            Bucket: "visual-birds",
-            Key: filename,
-            Body: imageBuffer,
-          };
-
-          await new Promise<void>((resolve, reject) => {
-            S3.upload(params, (error: Error | null) => {
-              if (error) {
-                reject(new Error(error.message));
-              } else {
-                const signedUrlParams = {
-                  Bucket: "visual-birds",
-                  Key: filename,
-                  Expires: 60,
-                };
-
-                const downloadUrl = S3.getSignedUrl(
-                  "getObject",
-                  signedUrlParams
-                );
-                result = { downloadUrl };
-
-                resolve();
-              }
-            });
-          });
-        } else {
-          console.log("Element not found for selector:", selector);
-        }
-      } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error }, { status: 400 });
-      } finally {
-        if (browser !== null) {
-          await browser.close();
-        }
-      }
+      browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath(
+          "https://github.com/Sparticuz/chromium/releases/download/v131.0.0/chromium-v131.0.0-pack.tar"
+        ),
+        headless: chromium.headless,
+      });
     } else {
-      try {
-        const puppeteer = await import("puppeteer").then((m) => m.default);
-        browser = await puppeteer.launch();
+      const puppeteer = await import("puppeteer").then((m) => m.default);
+      browser = await puppeteer.launch();
+    }
 
-        const page = await browser.newPage();
+    try {
+      const page = await browser.newPage();
 
-        await page.setViewport({
-          width: 1920,
-          height: 1080,
-          deviceScaleFactor: 2,
-        });
+      await page.setViewport({
+        width: 1920,
+        height: 1080,
+        deviceScaleFactor: 2,
+      });
 
-        await page.goto(url, { waitUntil: "networkidle0" });
+      await page.goto(url, { waitUntil: "networkidle0" });
 
-        const element = await page.$(selector);
+      const element = await page.$(selector);
 
-        if (element) {
-          const imageBuffer = await element.screenshot();
+      if (element) {
+        const imageBuffer = await element.screenshot();
 
-          const filename = "uploaded_on_" + Date.now() + ".jpg";
+        const filename = "uploaded_on_" + Date.now() + ".jpg";
 
-          const params = {
-            Bucket: "visual-birds",
-            Key: filename,
-            Body: imageBuffer,
-          };
+        const params = {
+          Bucket: "visual-birds",
+          Key: filename,
+          Body: imageBuffer,
+        };
 
-          await new Promise<void>((resolve, reject) => {
-            S3.upload(params, (error: Error | null) => {
-              if (error) {
-                reject(new Error(error.message));
-              } else {
-                const signedUrlParams = {
-                  Bucket: "visual-birds",
-                  Key: filename,
-                  Expires: 60,
-                };
+        await new Promise<void>((resolve, reject) => {
+          S3.upload(params, (error: Error | null) => {
+            if (error) {
+              reject(new Error(error.message));
+            } else {
+              const signedUrlParams = {
+                Bucket: "visual-birds",
+                Key: filename,
+                Expires: 60,
+              };
 
-                const downloadUrl = S3.getSignedUrl(
-                  "getObject",
-                  signedUrlParams
-                );
-                result = { downloadUrl };
+              const downloadUrl = S3.getSignedUrl("getObject", signedUrlParams);
+              result = { downloadUrl };
 
-                resolve();
-              }
-            });
+              resolve();
+            }
           });
-        } else {
-          console.log("Element not found for selector:", selector);
-        }
-      } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error }, { status: 400 });
-      } finally {
-        if (browser !== null) {
-          await browser.close();
-        }
+        });
+      } else {
+        console.log("Element not found for selector:", selector);
+      }
+    } catch (error) {
+      console.log(error);
+      return NextResponse.json({ error }, { status: 400 });
+    } finally {
+      if (browser !== null) {
+        await browser.close();
       }
     }
 
