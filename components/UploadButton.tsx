@@ -52,7 +52,7 @@ const UploadButton: React.FC = () => {
   return (
     <div className="flex flex-col justify-center h-full">
       <button
-        className="w-fit rounded-lg p-8 text-lg bg-gray-100 text-darkPrimary"
+        className="w-fit rounded-lg p-8 text-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300 text-darkPrimary"
         onClick={handleClick}
       >
         <div className="flex flex-col items-center gap-4">

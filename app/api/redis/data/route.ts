@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
 import redis from "@/utils/redis";
-import { ParsedData } from "@/utils/types";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {

@@ -22,8 +22,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Visual Birds",
-  description: "Project Safe Flight Infographics",
+  title: "Safe Flight Graphics",
+  description: "Project Safe Flight graphics generator for social media.",
 };
 
 export default function RootLayout({
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className}`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} bg-white`}
       >
         <nav className="bg-darkPrimary py-8 px-8 fixed w-full z-30">
           <div className="w-full flex items-center justify-between">

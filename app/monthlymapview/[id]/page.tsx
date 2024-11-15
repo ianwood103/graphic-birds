@@ -54,7 +54,7 @@ const MonthlyMapView: NextPage<Props> = async ({ params, searchParams }) => {
         </span>
       </div>
       <div className="absolute top-0 left-0 w-full bg-darkPrimary bg-opacity-95 z-20 text-center">
-        <span className="font-montserrat text-[23px] font-[400] leading-[48px]">
+        <span className="font-montserrat text-[23px] font-[400] leading-[48px] text-white">
           {MONTHS[month].toUpperCase()} {year}
         </span>
       </div>
