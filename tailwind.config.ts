@@ -8,6 +8,7 @@ const config: Config = {
     "./node_modules/@rewind-ui/core/dist/theme/styles/Select.styles.js",
     "./node_modules/@rewind-ui/core/dist/theme/styles/Input.styles.js",
     "./node_modules/@rewind-ui/core/dist/theme/styles/Button.styles.js",
+    "./node_modules/@rewind-ui/core/dist/theme/styles/Card.styles.js",
   ],
   theme: {
     extend: {
@@ -15,6 +16,7 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: "#1987D8",
+        darkPrimary: "#0F3D5F",
       },
       fontFamily: {
         montserrat: ["var(--font-montserrat)", "sans-serif"],

@@ -102,7 +102,7 @@ const processData = async (data: ParsedData[], year: number, month: number) => {
     other: otherSum,
   };
 
-  const mostCommonSpecies = entries[0][0];
+  const mostCommonSpecies = entries[0] ? entries[0][0] : "";
 
   const result = {
     breakdown,

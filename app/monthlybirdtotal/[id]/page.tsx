@@ -41,7 +41,7 @@ const MonthlyBirdTotalPage: NextPage<Props> = async ({
           className="w-[36rem] h-[36rem] object-cover"
         />
       </div>
-      <div className="flex flex-row w-10/12 h-full bg-[#005B9E] bg-opacity-65 z-20">
+      <div className="flex flex-row w-10/12 h-full bg-darkPrimary bg-opacity-65 z-20">
         <div className="flex flex-col items-center w-full h-full relative">
           {/* Date */}
           <span className="font-montserrat text-[23px] font-[400] leading-[48px]">

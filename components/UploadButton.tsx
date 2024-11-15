@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { ParsedData } from "@/utils/types";
 
 import Papa from "papaparse";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { MdFileUpload } from "react-icons/md";
 
 const UploadButton: React.FC = () => {
   const csvRef = useRef<HTMLInputElement | null>(null);
@@ -52,12 +52,12 @@ const UploadButton: React.FC = () => {
   return (
     <div className="flex flex-col justify-center h-full">
       <button
-        className="w-fit rounded-lg p-8 text-lg bg-blue-500 bg-opacity-20 transition-all drop-shadow hover:bg-opacity-30"
+        className="w-fit rounded-lg p-8 text-lg bg-gray-100 text-darkPrimary"
         onClick={handleClick}
       >
         <div className="flex flex-col items-center gap-4">
-          <IoCloudUploadOutline className="text-4xl text-blue-500" />
-          <span className="font-thin text-blue-500 text-xs">UPLOAD CSV</span>
+          <MdFileUpload className="text-4xl" />
+          <span className="text-sm">UPLOAD CSV</span>
         </div>
       </button>
       <input
