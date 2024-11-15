@@ -88,12 +88,17 @@ const Dashboard: NextPage<Props> = ({ params }) => {
       <div className="flex flex-row flex-wrap justify-center gap-10 mt-10">
         <MonthlyGraphicCard
           graphic="monthlybirdtotal"
-          title="Monthly Bird Total"
+          title="Monthly Bird Total (Instagram)"
           downloadGraphic={downloadGraphic}
         />
         <MonthlyGraphicCard
           graphic="monthlyspeciesbreakdown"
-          title="Monthly Species Breakdown"
+          title="Monthly Species Breakdown (Instagram)"
+          downloadGraphic={downloadGraphic}
+        />
+        <MonthlyGraphicCard
+          graphic="monthlymapview"
+          title="Monthly Map View (Instagram)"
           downloadGraphic={downloadGraphic}
         />
       </div>
