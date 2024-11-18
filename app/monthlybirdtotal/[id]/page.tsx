@@ -48,15 +48,15 @@ const MonthlyBirdTotalPage: NextPage<Props> = async ({
             {MONTHS[month].toUpperCase()} {year}
           </span>
           {/* Total collisions */}
-          <span className="font-montserrat text-[123px] font-[700] mt-[50px]">
+          <span className="font-montserrat text-[123px] font-[700] mt-[40px]">
             {total}
           </span>
-          <span className="font-montserrat text-[27px] font-[700] leading-tight text-center w-7/12 -mt-[10px]">
+          <span className="font-montserrat text-[34px] font-[700] leading-tight text-center w-9/12 -mt-[10px]">
             Collisions recorded by volunteers
           </span>
           {/* Most common species */}
           {mostCommonSpecies && (
-            <span className="font-montserrat text-[16px] font-[400] mt-[30px] leading-tight text-center w-7/12">
+            <span className="font-montserrat text-[20px] font-[400] mt-[20px] leading-tight text-center w-7/12">
               The most common bird found this month was the {mostCommonSpecies}.
             </span>
           )}

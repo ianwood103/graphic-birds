@@ -48,7 +48,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       await page.setViewport({
         width: 1920,
-        height: 1080,
+        height: 1440,
         deviceScaleFactor: 2,
       });
 

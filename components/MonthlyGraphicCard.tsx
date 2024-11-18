@@ -30,6 +30,7 @@ const MonthlyGraphicCard: FC<MonthlyGraphicCardProps> = ({
             alt={title}
             height={200}
             width={200}
+            className="max-h-[200px] w-auto"
           />
           <div className="w-full flex flex-row justify-center">
             <Button

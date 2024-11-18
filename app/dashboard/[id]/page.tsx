@@ -101,6 +101,21 @@ const Dashboard: NextPage<Props> = ({ params }) => {
           title="Monthly Map View (Instagram)"
           downloadGraphic={downloadGraphic}
         />
+        <MonthlyGraphicCard
+          graphic="monthlybirdtotalv2"
+          title="Monthly Map View (Instagram Story)"
+          downloadGraphic={downloadGraphic}
+        />
+        <MonthlyGraphicCard
+          graphic="monthlyspeciesbreakdownv2"
+          title="Monthly Species Breakdown (Instagram Story)"
+          downloadGraphic={downloadGraphic}
+        />
+        <MonthlyGraphicCard
+          graphic="monthlymapviewv2"
+          title="Monthly Map View (Instagram Story)"
+          downloadGraphic={downloadGraphic}
+        />
       </div>
     </div>
   );
