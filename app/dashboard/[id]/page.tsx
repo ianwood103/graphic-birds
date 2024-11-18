@@ -1,7 +1,8 @@
 "use client";
 
 import MonthlyGraphicCard from "@/components/MonthlyGraphicCard";
-import { MONTHS } from "@/utils/constants";
+import { MONTHS, SEASONS } from "@/utils/constants";
+import { Season } from "@/utils/types";
 import { Card, Select } from "@rewind-ui/core";
 import { NextPage } from "next";
 import { useState } from "react";
@@ -16,7 +17,13 @@ const Dashboard: NextPage<Props> = ({ params }) => {
 
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState<number>(new Date().getFullYear());
-  const [monthlyShown, setMonthlyShown] = useState<boolean>(true);
+  const [monthlyShown, setMonthlyShown] = useState<boolean>(false);
+
+  const [season, setSeason] = useState<Season>("spring");
+  const [seasonYear, setSeasonYear] = useState<number>(
+    new Date().getFullYear()
+  );
+  const [seasonalShown, setSeasonalShown] = useState<boolean>(false);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from(
@@ -140,29 +147,29 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             <div
               className="cursor-pointer text-darkPrimary -mr-8"
               onClick={() => {
-                setMonthlyShown((prevState) => !prevState);
+                setSeasonalShown((prevState) => !prevState);
               }}
             >
-              {monthlyShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
+              {seasonalShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
             </div>
             <span className="text-xl font-bold">Seasonal Bird Graphics</span>
             <div className="w-40">
               <Select
-                defaultValue={month}
-                onChange={(e) => setMonth(Number(e.target.value))}
+                defaultValue={season}
+                onChange={(e) => setSeason(e.target.value as Season)}
                 size="sm"
               >
-                {MONTHS.map((monthLabel, idx) => (
-                  <option key={idx} value={idx}>
-                    {monthLabel}
+                {SEASONS.map((season, idx) => (
+                  <option key={idx} value={season}>
+                    {season.charAt(0).toUpperCase() + season.slice(1)}
                   </option>
                 ))}
               </Select>
             </div>
             <div className="w-32">
               <Select
-                defaultValue={year}
-                onChange={(e) => setYear(Number(e.target.value))}
+                defaultValue={seasonYear}
+                onChange={(e) => setSeasonYear(Number(e.target.value))}
                 size="sm"
               >
                 {years.map((yearOption) => (
