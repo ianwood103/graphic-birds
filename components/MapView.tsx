@@ -7,14 +7,20 @@ import "leaflet/dist/leaflet.css";
 
 interface MapViewProps {
   coordinates: Coordinate[];
+  center?: [number, number];
+  zoom?: number;
 }
 
-const MapView: React.FC<MapViewProps> = ({ coordinates }) => {
+const MapView: React.FC<MapViewProps> = ({
+  coordinates,
+  center = [33.791, -84.344],
+  zoom = 12,
+}) => {
   return (
     <div className="w-full h-[38rem]">
       <MapContainer
-        center={[33.791, -84.344]}
-        zoom={12}
+        center={center}
+        zoom={zoom}
         style={{
           height: "100%",
           width: "100%",

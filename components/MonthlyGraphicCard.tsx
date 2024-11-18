@@ -19,7 +19,7 @@ const MonthlyGraphicCard: FC<MonthlyGraphicCardProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <Card className="text-darkPrimary w-[400px] bg-gray-50">
+    <Card className="text-darkPrimary w-[500px] bg-gray-50">
       <Card.Header className="font-bold bg-darkPrimary text-white">
         {title}
       </Card.Header>
