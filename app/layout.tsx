@@ -36,17 +36,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} bg-white`}
       >
-        <nav className="bg-darkPrimary py-8 px-8 fixed w-full z-30">
-          <div className="w-full flex items-center justify-between">
-            <a
-              href="/"
-              className="text-white text-4xl font-bold justify-self-start"
-            >
-              Safe Flight Graphics
-            </a>
-          </div>
-        </nav>
-        <div className="pt-[6.5rem]"></div>
         {children}
       </body>
     </html>
