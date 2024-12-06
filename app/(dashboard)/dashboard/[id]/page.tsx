@@ -5,7 +5,7 @@ import { MONTHS, SEASONS } from "@/utils/constants";
 import { Season } from "@/utils/types";
 import { Card, Select } from "@rewind-ui/core";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSolidRightArrow, BiSolidDownArrow } from "react-icons/bi";
 
 interface Props {
@@ -18,6 +18,7 @@ const Dashboard: NextPage<Props> = ({ params }) => {
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [monthlyShown, setMonthlyShown] = useState<boolean>(false);
+  const [birdCount, setBirdCount] = useState<number>(0);
 
   const [season, setSeason] = useState<Season>("spring");
   const [seasonYear, setSeasonYear] = useState<number>(
@@ -59,85 +60,124 @@ const Dashboard: NextPage<Props> = ({ params }) => {
     document.body.removeChild(downloadLink);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/birds/${id}?month=${month}&year=${year}`
+        );
+        const data = await response.json();
+        setBirdCount(data.count);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [month, year, id]);
+
   return (
     <div className="flex flex-col items-center bg-white min-h-screen">
       <Card className="w-full rounded-none bg-gray-200">
         <Card.Body>
-          <div className="flex flex-row items-center text-darkPrimary gap-10">
+          <div className="flex flex-row items-center text-darkPrimary gap-10 justify-between w-full">
+            <div className="flex flex-row items-center gap-10">
+              <div
+                className="cursor-pointer text-darkPrimary -mr-8"
+                onClick={() => {
+                  setMonthlyShown((prevState) => !prevState);
+                }}
+              >
+                {monthlyShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
+              </div>
+              <span className="text-xl font-bold">Monthly Bird Graphics</span>
+              <div className="w-40">
+                <Select
+                  defaultValue={month}
+                  onChange={(e) => setMonth(Number(e.target.value))}
+                  size="sm"
+                >
+                  {MONTHS.map((monthLabel, idx) => (
+                    <option key={idx} value={idx}>
+                      {monthLabel}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+              <div className="w-32">
+                <Select
+                  defaultValue={year}
+                  onChange={(e) => setYear(Number(e.target.value))}
+                  size="sm"
+                >
+                  {years.map((yearOption) => (
+                    <option key={yearOption} value={yearOption}>
+                      {yearOption}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            </div>
             <div
-              className="cursor-pointer text-darkPrimary -mr-8"
-              onClick={() => {
-                setMonthlyShown((prevState) => !prevState);
-              }}
+              className={`text-xl font-bold ${
+                birdCount < 5 ? "text-red-500" : ""
+              }`}
             >
-              {monthlyShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
-            </div>
-            <span className="text-xl font-bold">Monthly Bird Graphics</span>
-            <div className="w-40">
-              <Select
-                defaultValue={month}
-                onChange={(e) => setMonth(Number(e.target.value))}
-                size="sm"
-              >
-                {MONTHS.map((monthLabel, idx) => (
-                  <option key={idx} value={idx}>
-                    {monthLabel}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className="w-32">
-              <Select
-                defaultValue={year}
-                onChange={(e) => setYear(Number(e.target.value))}
-                size="sm"
-              >
-                {years.map((yearOption) => (
-                  <option key={yearOption} value={yearOption}>
-                    {yearOption}
-                  </option>
-                ))}
-              </Select>
+              Birds Found: {birdCount}
             </div>
           </div>
         </Card.Body>
       </Card>
       {monthlyShown && (
-        <div className="flex flex-row flex-wrap justify-center gap-10 my-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10 max-w-7xl mx-auto">
           <MonthlyGraphicCard
             graphic="monthlybirdtotal"
-            title="Monthly Bird Total (Instagram)"
+            title="Monthly Bird Total"
             downloadGraphic={downloadGraphic}
+            month={month}
+            year={year}
           />
           <MonthlyGraphicCard
             graphic="monthlyspeciesbreakdown"
-            title="Monthly Species Breakdown (Instagram)"
+            title="Monthly Species Breakdown"
             downloadGraphic={downloadGraphic}
+            month={month}
+            year={year}
           />
           <MonthlyGraphicCard
             graphic="monthlymapview"
-            title="Monthly Map View (Instagram)"
+            title="Monthly Map View"
             downloadGraphic={downloadGraphic}
+            month={month}
+            year={year}
           />
           <MonthlyGraphicCard
             graphic="monthlybirdtotalv2"
-            title="Monthly Map View (Instagram Story)"
+            title="Monthly Map View"
             downloadGraphic={downloadGraphic}
+            month={month}
+            year={year}
           />
           <MonthlyGraphicCard
             graphic="monthlyspeciesbreakdownv2"
-            title="Monthly Species Breakdown (Instagram Story)"
+            title="Monthly Species Breakdown"
             downloadGraphic={downloadGraphic}
+            month={month}
+            year={year}
           />
           <MonthlyGraphicCard
             graphic="monthlymapviewv2"
-            title="Monthly Map View (Instagram Story)"
+            title="Monthly Map View"
             downloadGraphic={downloadGraphic}
+            month={month}
+            year={year}
           />
           <MonthlyGraphicCard
             graphic="monthlybanner"
             title="Monthly Bird Details Banner"
             downloadGraphic={downloadGraphic}
+            month={month}
+            year={year}
           />
         </div>
       )}
