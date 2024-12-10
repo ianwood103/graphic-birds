@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
-import redis from "@/utils/redis";
 import { ParsedData } from "@/utils/types";
 import { MONTHS } from "@/utils/constants";
-import { getBirdFilename } from "@/utils/helpers";
+import { getBirdFilename, getData } from "@/utils/helpers";
 import Image from "next/image";
 
 interface Props {
@@ -76,16 +75,6 @@ const MonthlyBirdTotalPage: NextPage<Props> = async ({
 };
 
 export default MonthlyBirdTotalPage;
-
-const getData = async (id: string) => {
-  const redisData = await redis.hget("data", id);
-  if (redisData) {
-    const { data } = JSON.parse(redisData);
-    return data;
-  } else {
-    return "invalid id";
-  }
-};
 
 const processData = async (data: ParsedData[], year: number, month: number) => {
   if (!data) {

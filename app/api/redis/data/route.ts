@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
+import { gzip } from "zlib";
+import { promisify } from "util";
 
 import redis from "@/utils/redis";
 
@@ -16,9 +18,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const id = uuidv4();
+    const gzipAsync = promisify(gzip);
+    const compressedData = await gzipAsync(JSON.stringify(data));
+
     const newEntry = {
       id,
-      data,
+      data: compressedData,
       createdAt: Date.now(),
     };
 
@@ -32,6 +37,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       status: 200,
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 }

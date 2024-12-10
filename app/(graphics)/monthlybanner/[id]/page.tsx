@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
-import redis from "@/utils/redis";
 import { Coordinate, ParsedData, SpeciesBreakdown } from "@/utils/types";
 import { MONTHS } from "@/utils/constants";
-import { getBirdFilename } from "@/utils/helpers";
+import { getBirdFilename, getData } from "@/utils/helpers";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import BarChartV2 from "@/components/BarChartV2";
@@ -106,16 +105,6 @@ const MonthlyBannerPage: NextPage<Props> = async ({ params, searchParams }) => {
 };
 
 export default MonthlyBannerPage;
-
-const getData = async (id: string) => {
-  const redisData = await redis.hget("data", id);
-  if (redisData) {
-    const { data } = JSON.parse(redisData);
-    return data;
-  } else {
-    return "invalid id";
-  }
-};
 
 const processTotalData = async (
   data: ParsedData[],
