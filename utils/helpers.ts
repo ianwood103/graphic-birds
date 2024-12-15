@@ -13,7 +13,7 @@ export const getBirdFilename = (bird: string) => {
 };
 
 export const getData = async (id: string) => {
-  const redisData = await redis.hget("data", id);
+  const redisData = await redis.hget(id, "data");
   if (redisData) {
     const { data } = JSON.parse(redisData);
     const gunzipAsync = promisify(gunzip);

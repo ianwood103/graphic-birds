@@ -27,7 +27,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       createdAt: Date.now(),
     };
 
-    await redis.hset("data", id, JSON.stringify(newEntry));
+    await redis.hset(id, "data", JSON.stringify(newEntry));
+    await redis.expire(id, 3600);
 
     const result = {
       id,
