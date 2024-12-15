@@ -9,7 +9,7 @@ const S3 = new AWS.S3({
     accessKeyId: process.env.S3_ACCESS_KEY || "key",
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "secret_key",
   },
-  region: "us-east-2",
+  region: process.env.AWS_REGION,
   signatureVersion: "v4",
 });
 
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const filename = "uploaded_on_" + Date.now() + ".jpg";
 
         const params = {
-          Bucket: "visual-birds",
+          Bucket: process.env.S3_BUCKET || "bucket_name",
           Key: filename,
           Body: imageBuffer,
         };
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
               reject(new Error(error.message));
             } else {
               const signedUrlParams = {
-                Bucket: "visual-birds",
+                Bucket: process.env.S3_BUCKET,
                 Key: filename,
                 Expires: 60,
               };
