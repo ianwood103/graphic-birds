@@ -20,7 +20,7 @@ export const getData = async (id: string) => {
     const decompressedData = await gunzipAsync(Buffer.from(data));
     return JSON.parse(decompressedData.toString());
   } else {
-    return "invalid id";
+    return [];
   }
 };
 

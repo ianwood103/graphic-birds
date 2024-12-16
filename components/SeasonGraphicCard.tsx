@@ -5,23 +5,22 @@ import Image from "next/image";
 import { Button } from "@rewind-ui/core";
 import { Card } from "@rewind-ui/core";
 import { FaInstagram } from "react-icons/fa";
-import { MONTHS } from "@/utils/constants";
 
-interface MonthlyGraphicCardProps {
+interface SeasonGraphicCardProps {
   graphic: string;
   title: string;
-  downloadGraphic: (graphic: string) => void;
-  month: number;
+  downloadGraphic: (graphic: string, monthly: boolean) => void;
+  season: string;
   year: number;
   downloading: boolean;
   setDownloading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MonthlyGraphicCard: FC<MonthlyGraphicCardProps> = ({
+const SeasonGraphicCard: FC<SeasonGraphicCardProps> = ({
   graphic,
   title,
   downloadGraphic,
-  month,
+  season,
   year,
   downloading,
   setDownloading,
@@ -56,7 +55,7 @@ const MonthlyGraphicCard: FC<MonthlyGraphicCardProps> = ({
               onClick={async () => {
                 setLoading(true);
                 setDownloading(true);
-                await downloadGraphic(graphic);
+                await downloadGraphic(graphic, false);
                 setLoading(false);
                 setDownloading(false);
               }}
@@ -66,7 +65,8 @@ const MonthlyGraphicCard: FC<MonthlyGraphicCardProps> = ({
               Download Graphic
             </Button>
             <div className="text-sm text-gray-600 mb-2">
-              Downloading graphics for {MONTHS[month]} {year}
+              Downloading graphics for{" "}
+              {season.charAt(0).toUpperCase() + season.slice(1)} {year}
             </div>
           </div>
         </div>
@@ -75,4 +75,4 @@ const MonthlyGraphicCard: FC<MonthlyGraphicCardProps> = ({
   );
 };
 
-export default MonthlyGraphicCard;
+export default SeasonGraphicCard;

@@ -30,7 +30,7 @@ async function getBirdCount(id: string, month: string, year: string) {
 
   let count = 0;
   data.forEach((item: ParsedData) => {
-    const { Date: date, Species: species } = item;
+    const { Date: date } = item;
     const currentDate = date.split(" ")[0];
     const [currentMonth, , currentYear] = currentDate.split("/");
 

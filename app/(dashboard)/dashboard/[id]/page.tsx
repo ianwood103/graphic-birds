@@ -1,6 +1,7 @@
 "use client";
 
 import MonthlyGraphicCard from "@/components/MonthlyGraphicCard";
+import SeasonGraphicCard from "@/components/SeasonGraphicCard";
 import { MONTHS, SEASONS } from "@/utils/constants";
 import { Season } from "@/utils/types";
 import { Card, Select } from "@rewind-ui/core";
@@ -15,6 +16,7 @@ interface Props {
 const Dashboard: NextPage<Props> = ({ params }) => {
   const { id } = params;
 
+  const [downloading, setDownloading] = useState<boolean>(false);
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [monthlyShown, setMonthlyShown] = useState<boolean>(false);
@@ -32,12 +34,20 @@ const Dashboard: NextPage<Props> = ({ params }) => {
     (_, i) => currentYear - i
   );
 
-  const downloadGraphic = async (graphic: string) => {
+  const downloadGraphic = async (graphic: string, monthly: boolean = true) => {
     const isProduction = process.env.NODE_ENV === "production";
-    const searchParams = new URLSearchParams({
-      year: year.toString(),
-      month: month.toString(),
-    });
+    let searchParams;
+    if (monthly) {
+      searchParams = new URLSearchParams({
+        year: year.toString(),
+        month: month.toString(),
+      });
+    } else {
+      searchParams = new URLSearchParams({
+        year: seasonYear.toString(),
+        season: season.toString(),
+      });
+    }
     const url = `${
       isProduction ? "https://visual-birds.vercel.app" : "http://localhost:3000"
     }/${graphic}/${id}?${searchParams.toString()}`;
@@ -136,6 +146,8 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloadGraphic={downloadGraphic}
             month={month}
             year={year}
+            downloading={downloading}
+            setDownloading={setDownloading}
           />
           <MonthlyGraphicCard
             graphic="monthlyspeciesbreakdown"
@@ -143,6 +155,8 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloadGraphic={downloadGraphic}
             month={month}
             year={year}
+            downloading={downloading}
+            setDownloading={setDownloading}
           />
           <MonthlyGraphicCard
             graphic="monthlymapview"
@@ -150,6 +164,8 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloadGraphic={downloadGraphic}
             month={month}
             year={year}
+            downloading={downloading}
+            setDownloading={setDownloading}
           />
           <MonthlyGraphicCard
             graphic="monthlybirdtotalv2"
@@ -157,6 +173,8 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloadGraphic={downloadGraphic}
             month={month}
             year={year}
+            downloading={downloading}
+            setDownloading={setDownloading}
           />
           <MonthlyGraphicCard
             graphic="monthlyspeciesbreakdownv2"
@@ -164,6 +182,8 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloadGraphic={downloadGraphic}
             month={month}
             year={year}
+            downloading={downloading}
+            setDownloading={setDownloading}
           />
           <MonthlyGraphicCard
             graphic="monthlymapviewv2"
@@ -171,6 +191,8 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloadGraphic={downloadGraphic}
             month={month}
             year={year}
+            downloading={downloading}
+            setDownloading={setDownloading}
           />
           <MonthlyGraphicCard
             graphic="monthlybanner"
@@ -178,6 +200,8 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloadGraphic={downloadGraphic}
             month={month}
             year={year}
+            downloading={downloading}
+            setDownloading={setDownloading}
           />
         </div>
       )}
@@ -222,6 +246,28 @@ const Dashboard: NextPage<Props> = ({ params }) => {
           </div>
         </Card.Body>
       </Card>
+      {seasonalShown && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10 max-w-7xl mx-auto">
+          <SeasonGraphicCard
+            graphic="seasonrecap"
+            title="Season Recap"
+            downloadGraphic={downloadGraphic}
+            season={season}
+            year={seasonYear}
+            downloading={downloading}
+            setDownloading={setDownloading}
+          />
+          <SeasonGraphicCard
+            graphic="seasontotal"
+            title="Season Total"
+            downloadGraphic={downloadGraphic}
+            season={season}
+            year={seasonYear}
+            downloading={downloading}
+            setDownloading={setDownloading}
+          />
+        </div>
+      )}
     </div>
   );
 };

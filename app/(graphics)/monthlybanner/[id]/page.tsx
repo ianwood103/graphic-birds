@@ -40,7 +40,7 @@ const MonthlyBannerPage: NextPage<Props> = async ({ params, searchParams }) => {
 
   return (
     <div
-      className="w-[64rem] h-[36rem] flex flex-row bg-white rounded-md box-shadow text-white justify-center relative overflow-hidden"
+      className="w-[64rem] h-[36rem] flex flex-row bg-white box-shadow text-white justify-center relative overflow-hidden"
       id="monthlybanner"
     >
       <div className="w-1/3 h-[36rem] z-10">
