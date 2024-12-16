@@ -21,6 +21,7 @@ const Dashboard: NextPage<Props> = ({ params }) => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [monthlyShown, setMonthlyShown] = useState<boolean>(false);
   const [birdCount, setBirdCount] = useState<number>(0);
+  const [birdSeasonCount, setBirdSeasonCount] = useState<number>(0);
 
   const [season, setSeason] = useState<Season>("spring");
   const [seasonYear, setSeasonYear] = useState<number>(
@@ -85,6 +86,22 @@ const Dashboard: NextPage<Props> = ({ params }) => {
 
     fetchData();
   }, [month, year, id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/birds/season/${id}?season=${season}&year=${seasonYear}`
+        );
+        const data = await response.json();
+        setBirdSeasonCount(data.count);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [season, seasonYear, id]);
 
   return (
     <div className="flex flex-col items-center bg-white min-h-screen">
@@ -207,41 +224,50 @@ const Dashboard: NextPage<Props> = ({ params }) => {
       )}
       <Card className="w-full rounded-none bg-gray-200">
         <Card.Body>
-          <div className="flex flex-row items-center text-darkPrimary gap-10">
+          <div className="flex flex-row items-center text-darkPrimary gap-10 justify-between w-full">
+            <div className="flex flex-row items-center gap-10">
+              <div
+                className="cursor-pointer text-darkPrimary -mr-8"
+                onClick={() => {
+                  setSeasonalShown((prevState) => !prevState);
+                }}
+              >
+                {seasonalShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
+              </div>
+              <span className="text-xl font-bold">Seasonal Bird Graphics</span>
+              <div className="w-40">
+                <Select
+                  defaultValue={season}
+                  onChange={(e) => setSeason(e.target.value as Season)}
+                  size="sm"
+                >
+                  {SEASONS.map((season, idx) => (
+                    <option key={idx} value={season}>
+                      {season.charAt(0).toUpperCase() + season.slice(1)}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+              <div className="w-32">
+                <Select
+                  defaultValue={seasonYear}
+                  onChange={(e) => setSeasonYear(Number(e.target.value))}
+                  size="sm"
+                >
+                  {years.map((yearOption) => (
+                    <option key={yearOption} value={yearOption}>
+                      {yearOption}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            </div>
             <div
-              className="cursor-pointer text-darkPrimary -mr-8"
-              onClick={() => {
-                setSeasonalShown((prevState) => !prevState);
-              }}
+              className={`text-xl font-bold ${
+                birdSeasonCount < 5 ? "text-red-500" : ""
+              }`}
             >
-              {seasonalShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
-            </div>
-            <span className="text-xl font-bold">Seasonal Bird Graphics</span>
-            <div className="w-40">
-              <Select
-                defaultValue={season}
-                onChange={(e) => setSeason(e.target.value as Season)}
-                size="sm"
-              >
-                {SEASONS.map((season, idx) => (
-                  <option key={idx} value={season}>
-                    {season.charAt(0).toUpperCase() + season.slice(1)}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className="w-32">
-              <Select
-                defaultValue={seasonYear}
-                onChange={(e) => setSeasonYear(Number(e.target.value))}
-                size="sm"
-              >
-                {years.map((yearOption) => (
-                  <option key={yearOption} value={yearOption}>
-                    {yearOption}
-                  </option>
-                ))}
-              </Select>
+              Birds Found: {birdSeasonCount}
             </div>
           </div>
         </Card.Body>
