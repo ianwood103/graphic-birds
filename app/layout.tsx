@@ -10,17 +10,6 @@ const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
 export const metadata: Metadata = {
   title: "Safe Flight Graphics",
   description: "Project Safe Flight graphics generator for social media.",
@@ -33,9 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} bg-white`}
-      >
+      <body className={`antialiased ${montserrat.className} bg-white`}>
         {children}
       </body>
     </html>
