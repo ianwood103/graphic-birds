@@ -292,6 +292,15 @@ const Dashboard: NextPage<Props> = ({ params }) => {
             downloading={downloading}
             setDownloading={setDownloading}
           />
+          <SeasonGraphicCard
+            graphic="seasonspeciesbreakdown"
+            title="Season Species Breakdown"
+            downloadGraphic={downloadGraphic}
+            season={season}
+            year={seasonYear}
+            downloading={downloading}
+            setDownloading={setDownloading}
+          />
         </div>
       )}
     </div>

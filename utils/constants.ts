@@ -14,7 +14,7 @@ export const MONTHS = [
   "December",
 ];
 
-export const SEASONS = ["fall", "spring"];
+export const SEASONS = ["spring", "fall"];
 
 type BirdFileMap = {
   [key: string]: string;
