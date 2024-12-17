@@ -273,53 +273,102 @@ const Dashboard: NextPage<Props> = ({ params }) => {
         </Card.Body>
       </Card>
       {seasonalShown && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10 max-w-7xl mx-auto">
-          <SeasonGraphicCard
-            graphic="seasonrecap"
-            title="Season Recap"
-            downloadGraphic={downloadGraphic}
-            season={season}
-            year={seasonYear}
-            downloading={downloading}
-            setDownloading={setDownloading}
-          />
-          <SeasonGraphicCard
-            graphic="seasontotal"
-            title="Season Total"
-            downloadGraphic={downloadGraphic}
-            season={season}
-            year={seasonYear}
-            downloading={downloading}
-            setDownloading={setDownloading}
-          />
-          <SeasonGraphicCard
-            graphic="seasonspeciesbreakdown"
-            title="Season Species Breakdown"
-            downloadGraphic={downloadGraphic}
-            season={season}
-            year={seasonYear}
-            downloading={downloading}
-            setDownloading={setDownloading}
-          />
-          <SeasonGraphicCard
-            graphic="seasongeorgia"
-            title="Season Georgia Breakdown"
-            downloadGraphic={downloadGraphic}
-            season={season}
-            year={seasonYear}
-            downloading={downloading}
-            setDownloading={setDownloading}
-          />
-          <SeasonGraphicCard
-            graphic="seasonmapview"
-            title="Season Map View"
-            downloadGraphic={downloadGraphic}
-            season={season}
-            year={seasonYear}
-            downloading={downloading}
-            setDownloading={setDownloading}
-          />
-        </div>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10 max-w-7xl mx-auto">
+            <SeasonGraphicCard
+              graphic="seasonrecap"
+              title="Season Recap"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasontotal"
+              title="Season Total"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasonspeciesbreakdown"
+              title="Season Species Breakdown"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasongeorgia"
+              title="Season Georgia Breakdown"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasonmapview"
+              title="Season Map View"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10 max-w-7xl mx-auto">
+            <SeasonGraphicCard
+              graphic="seasonrecapv2"
+              title="Season Recap"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasontotalv2"
+              title="Season Total"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasonspeciesbreakdownv2"
+              title="Season Species Breakdown"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasongeorgiav2"
+              title="Season Georgia Breakdown"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+            <SeasonGraphicCard
+              graphic="seasonmapviewv2"
+              title="Season Map View"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+          </div>
+        </>
       )}
     </div>
   );

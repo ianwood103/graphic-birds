@@ -13,22 +13,22 @@ interface Props {
   params: { id: string };
   searchParams: {
     year?: string;
-    month?: string;
+    season?: string;
   };
 }
 
-const MonthlyMapView: NextPage<Props> = async ({ params, searchParams }) => {
+const SeasonMapView: NextPage<Props> = async ({ params, searchParams }) => {
   const { id } = params;
-  const month = parseInt(searchParams.month || "0", 10);
+  const season = searchParams.season || "fall";
   const year = parseInt(searchParams.year || "2024", 10);
 
   const data = await getData(id);
-  const { coordinates } = await processData(data, year, month);
+  const { coordinates } = await processData(data, year, season);
 
   return (
     <div
       className="w-[36rem] h-[64rem] bg-white overflow-hidden relative"
-      id="monthlymapviewv2"
+      id="seasonmapviewv2"
     >
       {coordinates && <MapViewV2 coordinates={coordinates} />}
       <div className="w-36 h-24 flex flex-col items-center absolute top-[11.4rem] left-[18rem] z-20">
@@ -45,7 +45,7 @@ const MonthlyMapView: NextPage<Props> = async ({ params, searchParams }) => {
       </div>
       <div className="absolute flex flex-col items-center top-0 left-0 w-full bg-darkPrimary bg-opacity-95 z-20 text-center">
         <span className="font-montserrat text-[23px] font-[400] leading-[48px] text-white">
-          {MONTHS[month].toUpperCase()} {year}
+          {season.charAt(0).toUpperCase() + season.slice(1)} {year}
         </span>
         <span className="font-montserrat text-[34px] font-[700] leading-tight text-center w-9/12 -mt-[10px] py-3 text-white">
           Where are volunteers finding dead birds?
@@ -60,9 +60,13 @@ const MonthlyMapView: NextPage<Props> = async ({ params, searchParams }) => {
   );
 };
 
-export default MonthlyMapView;
+export default SeasonMapView;
 
-const processData = async (data: ParsedData[], year: number, month: number) => {
+const processData = async (
+  data: ParsedData[],
+  year: number,
+  season: string
+) => {
   const coordinates: Coordinate[] = [];
 
   data.forEach((item: ParsedData) => {
@@ -70,7 +74,13 @@ const processData = async (data: ParsedData[], year: number, month: number) => {
     const currentDate = date.split(" ")[0];
     const [currentMonth, , currentYear] = currentDate.split("/");
 
-    if (month == parseInt(currentMonth) && year == parseInt(currentYear)) {
+    const monthNum = parseInt(currentMonth);
+    const isInSeason =
+      season === "fall"
+        ? monthNum >= 8 && monthNum <= 11
+        : monthNum >= 3 && monthNum <= 6;
+
+    if (isInSeason && year == parseInt(currentYear)) {
       if (x && y) {
         coordinates.push({
           x: parseFloat(x),

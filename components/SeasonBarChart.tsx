@@ -9,9 +9,10 @@ ChartJS.register(...registerables);
 
 interface BarChartProps {
   breakdown: SpeciesBreakdown;
+  portrait?: boolean;
 }
 
-const BarChart: React.FC<BarChartProps> = ({ breakdown }) => {
+const BarChart: React.FC<BarChartProps> = ({ breakdown, portrait = false }) => {
   if (!breakdown) {
     return <span>No Data</span>;
   }
@@ -40,7 +41,7 @@ const BarChart: React.FC<BarChartProps> = ({ breakdown }) => {
         backgroundColor: colors[index % colors.length], // Assign color based on index
         borderColor: "transparent", // Changed border color to transparent
         borderWidth: 6, // Changed border width to 8
-        barPercentage: 1, // Adjusted bar percentage to make bars narrower
+        barPercentage: portrait ? 1.2 : 1, // Adjusted bar percentage to make bars narrower
         borderRadius: 0, // Set border radius to 0 to make bars not rounded
       })),
   };
@@ -75,13 +76,13 @@ const BarChart: React.FC<BarChartProps> = ({ breakdown }) => {
     plugins: {
       legend: {
         position: "right",
-        align: "end",
+        align: portrait ? "center" : "end",
         labels: {
           usePointStyle: true, // Use circles for legend points
           pointStyle: "circle", // Specify circle as the point style
           boxHeight: 10,
           color: "#FFFFFF", // Set legend text color to white
-          padding: 10,
+          padding: portrait ? 30 : 10,
           font: {
             size: 20, // Increase font size of legend
           },

@@ -24,16 +24,16 @@ const SeasonRecapPage: NextPage<Props> = async ({ params, searchParams }) => {
 
   return (
     <div
-      className="w-[36rem] h-[36rem] bg-white rounded-md box-shadow text-white flex flex-row justify-center relative"
-      id="seasonrecap"
+      className="w-[36rem] h-[64rem] bg-white rounded-md box-shadow text-white flex flex-row justify-center relative"
+      id="seasonrecapv2"
     >
-      <div className="absolute w-[36rem] h-[36rem] z-10">
+      <div className="absolute w-[36rem] h-[64rem] z-10">
         <Image
           src={filename}
           alt="Bird Placeholder"
           width={1000}
           height={1000}
-          className="w-[36rem] h-[36rem] object-cover"
+          className="w-[36rem] h-[64rem] object-cover"
         />
       </div>
       <div className="flex flex-row w-10/12 h-full bg-darkPrimary bg-opacity-65 z-20">
@@ -41,20 +41,20 @@ const SeasonRecapPage: NextPage<Props> = async ({ params, searchParams }) => {
           <span className="font-montserrat text-[23px] font-[400] leading-[48px]">
             {season.toUpperCase()} {year}
           </span>
-          <span className="font-montserrat text-[55px] font-[700] w-9/12 leading-[65px] text-center mt-[50px]">
+          <span className="font-montserrat text-[65px] font-[700] w-9/12 leading-[75px] text-center mt-[280px]">
             SEASON RECAP
           </span>
-          <span className="font-montserrat text-[28px] font-[700] leading-tight text-center w-9/12 mt-[20px]">
+          <span className="font-montserrat text-[30px] font-[700] leading-tight text-center w-9/12 mt-[20px]">
             PROJECT SAFE FLIGHT
           </span>
-          <div className="flex flex-row absolute bottom-0 left-1/2 -ml-[35px] mb-[15px] gap-2">
+          <div className="flex flex-row absolute bottom-2 left-1/2 -ml-[45px] mb-[15px] gap-2">
             <Image
               src="/birds_ga.png"
               alt="Birds GA Logo"
-              width={30}
+              width={40}
               height={28}
             />
-            <Image src="/gt_logo.png" alt="GT Logo" width={40} height={28} />
+            <Image src="/gt_logo.png" alt="GT Logo" width={55} height={28} />
           </div>
         </div>
       </div>
