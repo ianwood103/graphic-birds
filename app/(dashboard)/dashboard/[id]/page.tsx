@@ -4,7 +4,7 @@ import MonthlyGraphicCard from "@/components/MonthlyGraphicCard";
 import SeasonGraphicCard from "@/components/SeasonGraphicCard";
 import { MONTHS, SEASONS } from "@/utils/constants";
 import { Season } from "@/utils/types";
-import { Card, Select } from "@rewind-ui/core";
+import { Button, Card, Select } from "@rewind-ui/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { BiSolidRightArrow, BiSolidDownArrow } from "react-icons/bi";
@@ -34,6 +34,52 @@ const Dashboard: NextPage<Props> = ({ params }) => {
     { length: currentYear - 1999 },
     (_, i) => currentYear - i
   );
+
+  const [monthlyDownloading, setMonthlyDownloading] = useState<boolean>(false);
+
+  const downloadAllMonthly = async () => {
+    setDownloading(true);
+    setMonthlyDownloading(true);
+    const response = await fetch("/api/screenshot/monthly", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, month, year }),
+    });
+
+    const { url } = await response.json();
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    setDownloading(false);
+    setMonthlyDownloading(false);
+  };
+
+  const [seasonDownloading, setSeasonDownloading] = useState<boolean>(false);
+
+  const downloadAllSeason = async () => {
+    setDownloading(true);
+    setSeasonDownloading(true);
+    const response = await fetch("/api/screenshot/season", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, season, year: seasonYear }),
+    });
+
+    const { url } = await response.json();
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    setDownloading(false);
+    setSeasonDownloading(false);
+  };
 
   const downloadGraphic = async (graphic: string, monthly: boolean = true) => {
     let searchParams;
@@ -116,7 +162,9 @@ const Dashboard: NextPage<Props> = ({ params }) => {
               >
                 {monthlyShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
               </div>
-              <span className="text-xl font-bold">Monthly Bird Graphics</span>
+              <span className="text-xl font-bold w-64">
+                Monthly Bird Graphics
+              </span>
               <div className="w-40">
                 <Select
                   defaultValue={month}
@@ -143,6 +191,17 @@ const Dashboard: NextPage<Props> = ({ params }) => {
                   ))}
                 </Select>
               </div>
+              <Button
+                className="h-8"
+                onClick={downloadAllMonthly}
+                loading={monthlyDownloading}
+                disabled={downloading}
+              >
+                Download All
+              </Button>
+              {monthlyDownloading && (
+                <span className="text-sm">* This may take some time</span>
+              )}
             </div>
             <div
               className={`text-xl font-bold ${
@@ -233,7 +292,9 @@ const Dashboard: NextPage<Props> = ({ params }) => {
               >
                 {seasonalShown ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
               </div>
-              <span className="text-xl font-bold">Seasonal Bird Graphics</span>
+              <span className="text-xl font-bold w-64">
+                Seasonal Bird Graphics
+              </span>
               <div className="w-40">
                 <Select
                   defaultValue={season}
@@ -260,6 +321,17 @@ const Dashboard: NextPage<Props> = ({ params }) => {
                   ))}
                 </Select>
               </div>
+              <Button
+                className="h-8"
+                onClick={downloadAllSeason}
+                loading={seasonDownloading}
+                disabled={downloading}
+              >
+                Download All
+              </Button>
+              {seasonDownloading && (
+                <span className="text-sm">* This may take some time</span>
+              )}
             </div>
             <div
               className={`text-xl font-bold ${

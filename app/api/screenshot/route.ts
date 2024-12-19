@@ -59,7 +59,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       if (element) {
         const imageBuffer = await element.screenshot();
 
-        const filename = "uploaded_on_" + Date.now() + ".jpg";
+        const graphic = selector.slice(1);
+
+        const filename = `${graphic}_${Date.now()}.jpg`;
 
         const params = {
           Bucket: process.env.S3_BUCKET || "bucket_name",
@@ -79,7 +81,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
               };
 
               const downloadUrl = S3.getSignedUrl("getObject", signedUrlParams);
-              result = { downloadUrl };
+              result = { downloadUrl, key: filename };
 
               resolve();
             }
