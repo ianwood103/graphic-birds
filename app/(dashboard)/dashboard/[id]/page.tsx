@@ -36,7 +36,6 @@ const Dashboard: NextPage<Props> = ({ params }) => {
   );
 
   const downloadGraphic = async (graphic: string, monthly: boolean = true) => {
-    const isProduction = process.env.NODE_ENV === "production";
     let searchParams;
     if (monthly) {
       searchParams = new URLSearchParams({
@@ -50,7 +49,7 @@ const Dashboard: NextPage<Props> = ({ params }) => {
       });
     }
     const url = `${
-      isProduction ? "https://visual-birds.vercel.app" : "http://localhost:3000"
+      process.env.NEXT_PUBLIC_URL
     }/${graphic}/${id}?${searchParams.toString()}`;
     const selector = `#${graphic}`;
 
