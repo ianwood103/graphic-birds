@@ -4,7 +4,6 @@ import { FC, useState } from "react";
 import Image from "next/image";
 import { Button } from "@rewind-ui/core";
 import { Card } from "@rewind-ui/core";
-import { FaInstagram } from "react-icons/fa";
 import { MONTHS } from "@/utils/constants";
 
 interface MonthlyGraphicCardProps {
@@ -31,10 +30,7 @@ const MonthlyGraphicCard: FC<MonthlyGraphicCardProps> = ({
   return (
     <Card className="text-darkPrimary w-fit bg-gray-50">
       <Card.Header className="font-bold bg-darkPrimary text-white">
-        <div className="flex items-center gap-2">
-          <FaInstagram className="text-xl" />
-          {title}
-        </div>
+        <div className="flex items-center gap-2">{title}</div>
       </Card.Header>
       <Card.Body>
         <div className="flex flex-col items-center w-full gap-4">

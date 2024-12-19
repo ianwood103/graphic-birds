@@ -368,6 +368,17 @@ const Dashboard: NextPage<Props> = ({ params }) => {
               setDownloading={setDownloading}
             />
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10 max-w-7xl mx-auto">
+            <SeasonGraphicCard
+              graphic="seasonbanner"
+              title="Season Recap Banner"
+              downloadGraphic={downloadGraphic}
+              season={season}
+              year={seasonYear}
+              downloading={downloading}
+              setDownloading={setDownloading}
+            />
+          </div>
         </>
       )}
     </div>
