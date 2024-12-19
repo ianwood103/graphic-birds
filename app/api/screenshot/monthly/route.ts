@@ -8,7 +8,7 @@ import { NextRequest } from "next/server";
 import { Upload } from "@aws-sdk/lib-storage";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 
 // Initialize the S3 client with your credentials and region
 const s3Client = new S3Client({
