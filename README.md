@@ -12,6 +12,9 @@ Graphic Birds is a web application designed to visualize bird collision data, pr
 - [Usage](#usage)
 
 ## Example Graphics
+![image](https://github.com/user-attachments/assets/68c15f78-f8fa-4166-bf88-7ae37f0dd7d3)
+
+![image](https://github.com/user-attachments/assets/49e63817-34a8-47ef-9d46-7396cb55d378)
 
 ## Getting Started
 
