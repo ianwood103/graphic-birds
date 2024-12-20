@@ -12,7 +12,7 @@ export default function RootLayout({
               href="/"
               className="text-white text-3xl font-bold justify-self-start"
             >
-              Safe Flight Graphics
+              Graphic Birds
             </a>
           </div>
         </nav>

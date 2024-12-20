@@ -10,7 +10,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Safe Flight Graphics",
+  title: "Graphic Birds",
   description: "Project Safe Flight graphics generator for social media.",
 };
 
